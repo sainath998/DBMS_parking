@@ -1,0 +1,50 @@
+{% block content %}
+    <style>
+        .head {
+            color: brown;
+            font-family: monospace;
+            font-size: 50px; 
+            text-align: center;
+            margin-top: 200px;
+            margin-right: 20px;
+        }
+
+        .label_tag {
+            font-size: 30px;
+            color:brown;
+            font-family: monospace;
+        }
+
+        .field {
+            margin-top: 200px;
+        }
+
+        .logReg_info {
+			color: maroon;
+			font-family: monospace;
+			font-size: 30px;
+			text-align: center;
+			margin-top: 270px;
+		}
+    </style>
+
+    
+    {% if request.user.is_authenticated %}
+    <h2 class="head">Slot Booking</h2>
+        <form method="post" style="text-align: center;">{% csrf_token %}
+            {% for field in booking_form %}
+                <p>
+                    <em class="label_tag">{{field.label_tag}}</em>
+                    <em class="field">{{field}}</em>
+                </p>
+            {% endfor %}
+            <button type="submit" style="color: brown; background-color: rgb(255, 255, 255); margin-right: 10px; border-radius: 5px;">BOOK SLOT</button>
+        </form>
+        
+    {% else %}
+        <h2 class="logReg_info">Hmm..., looks like u are not logged in.<br>
+            Just <a href="{% url 'login' %}" style="font-style: italic; color: rgb(20, 247, 198);">login</a> 
+            or <a href="{% url 'register' %}" style="font-style: italic; color: rgb(20, 247, 198);">sign up</a> 
+            if not already registered. Then you can book your parking slot.</h2>
+    {% endif %}
+{% endblock %}

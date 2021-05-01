@@ -1,0 +1,109 @@
+{% load static %}
+{% block content %}
+
+    <head>
+        <style>
+            .bg {
+			    background-color: rgb(179, 179, 179);
+		    }
+
+            .occ {
+                font-size: 18px;
+                font-family: monospace;
+                /* border-radius: 8px; */
+				background:rgb(90, 241, 201);
+				color:white;
+				text-align:justify;
+                text-align: center;
+                margin-bottom: 10px;
+			}
+
+            .unocc {
+                font-size: 18px;
+                font-family: monospace;
+                /* border-radius: 8px; */
+                /* padding-top: 10px; */
+                /* padding-bottom: 10px; */
+                margin: 10px;
+				background:rgb(107, 166, 255);
+				text-align:justify;
+                text-align: center;
+                margin-bottom: 10px;
+			}
+        </style>
+    </head>
+
+    
+        <body class="bg">
+            <div style="margin-top: 250px">
+                <div style="margin-left: 100px">
+                    {% with ''|center:col as col_range %}
+                    {% for i in col_range %}
+                        {% with 1|my_get:forloop.counter as the_slot %}
+                        {% if the_slot.is_occupied %}
+                            <em class="occ">{{the_slot.vehicle_id}}</em>
+                        {% else %}
+                            {% if not request.user.is_staff %}
+                                <a href="{% url 'slotBooking' the_slot.slot_id %}"><em class="unocc">{{the_slot}}</em></a>
+                            {% else %}
+                                <em class="unocc">{{the_slot}}</em>
+                            {% endif %}
+                        {% endif %}
+                        {% endwith %}
+                    {% endfor %}
+                    {% endwith %}
+                </div>
+                <div style="margin-left: 100px">
+                    {% with ''|center:col as col_range %}
+                    {% for i in col_range %}
+                        {% with 2|my_get:forloop.counter as the_slot %}
+                        {% if the_slot.is_occupied %}
+                            <em class="occ">{{the_slot.vehicle_id}}</em>
+                        {% else %}
+                            {% if not request.user.is_staff %}
+                                <a href="{% url 'slotBooking' the_slot.slot_id %}"><em class="unocc">{{the_slot}}</em></a>
+                            {% else %}
+                                <em class="unocc">{{the_slot}}</em>
+                            {% endif %}
+                        {% endif %}
+                        {% endwith %}
+                    {% endfor %}
+                    {% endwith %}
+                </div>
+                <div style="margin-left: 100px">
+                    {% with ''|center:col as col_range %}
+                    {% for i in col_range %}
+                        {% with 3|my_get:forloop.counter as the_slot %}
+                        {% if the_slot.is_occupied %}
+                            <em class="occ">{{the_slot.vehicle_id}}</em>
+                        {% else %}
+                            {% if not request.user.is_staff %}
+                                <a href="{% url 'slotBooking' the_slot.slot_id %}"><em class="unocc">{{the_slot}}</em></a>
+                            {% else %}
+                                <em class="unocc">{{the_slot}}</em>
+                            {% endif %}
+                        {% endif %}
+                        {% endwith %}
+                    {% endfor %}
+                    {% endwith %}
+                </div>
+                <div style="margin-left: 100px">
+                    {% with ''|center:col as col_range %}
+                    {% for i in col_range %}
+                        {% with 4|my_get:forloop.counter as the_slot %}
+                        {% if the_slot.is_occupied %}
+                            <em class="occ">{{the_slot.vehicle_id}}</em>
+                        {% else %}
+                            {% if not request.user.is_staff %}
+                                <a href="{% url 'slotBooking' the_slot.slot_id %}"><em class="unocc">{{the_slot}}</em></a>
+                            {% else %}
+                                <em class="unocc">{{the_slot}}</em>
+                            {% endif %}
+                        {% endif %}
+                        {% endwith %}
+                    {% endfor %}
+                    {% endwith %}
+                </div>
+            </div>
+        </body>
+{% endblock %}
