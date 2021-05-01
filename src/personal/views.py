@@ -10,7 +10,7 @@ from django.shortcuts import redirect
 
 from account.models import Account
 
-from datetime import datetime
+from datetime import datetime, date
 
 # Create your views here.
 # home view,
@@ -117,7 +117,7 @@ def slot_booking_view(request, slot_id) :
                     the_slot.is_occupied = True
                     the_slot.vehicle_id = the_vehicle_id
                     the_slot.end_time = request.POST['end_time']
-                    print("availabe increment" + str(the_slot.available_increment))
+                    print("availabe increment " + str(the_slot.available_increment))
                     end_time_time = datetime.strptime(the_slot.end_time, '%H:%M').time()
                     if now > end_time_time :          # not supported operand,
                         print("not future time")
@@ -249,7 +249,7 @@ def changeParkingView(request, parked_slot_id) :
             # print(the_slot.is_occupied)
 
         else :
-            print("not change occ")
+            print("\nnot change occ")
             print("time of booking : " + str(the_slot.booked_time))
             changed_end_time = datetime.strptime(request.POST.get('end_time'), '%H:%M:%S').time()
             if changed_end_time < actual_end_time and changed_end_time > now :
@@ -259,10 +259,24 @@ def changeParkingView(request, parked_slot_id) :
             else :
                 if changed_end_time > actual_end_time :
                     print("ooh increasing,,,")
-                    print(changed_end_time - actual_end_time)
-                else :
-                    print("time not ok")
+                    delta = datetime.combine(date.today(), changed_end_time) - datetime.combine(date.today(), actual_end_time)
 
+                    if the_slot.available_increment - delta.seconds/60 > 0 :
+                        print("\nincrement available : " + str(the_slot.available_increment))
+                        print("time diff in minutes : " + str(delta.seconds/60))
+                        # upadte the available_increment,
+                        the_slot.available_increment = the_slot.available_increment - delta.seconds/60
+                        # print("remaining : " + str(the_slot.available_increment))
+
+                        the_slot.end_time = changed_end_time
+
+                        the_slot.save()
+
+                    else :
+                        print("\nincrement not available")
+                else :
+                    print("\ntime not ok")
+        print("remaining : " + str(the_slot.available_increment))
         print("now end time : " + str(the_slot.end_time))
 
         return redirect('userHome')
